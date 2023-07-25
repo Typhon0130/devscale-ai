@@ -1,0 +1,15 @@
+{
+  "name": "devscale-ai",
+  "version": "1.0.0",
+  "description": "AI Platfrom that train chatbot using specific data and chat with this bot",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "devscale-ai"
+  },
+  "author": "Hatake Honzo",
+  "license": "ISC"
+}
