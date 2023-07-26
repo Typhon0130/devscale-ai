@@ -118,7 +118,7 @@ export const Sidebar: FC<Props> = ({
 
   return (
     <aside
-      className={`fixed top-0 bottom-0 z-50 flex h-full w-[260px] flex-none flex-col space-y-2 bg-bgPrimary p-2 transition-all sm:relative sm:top-0`}
+      className={`fixed top-0 bottom-0 z-50 flex h-full w-[260px] flex-none flex-col space-y-2 bg-[#202123] p-2 transition-all sm:relative sm:top-0`}
     >
       <header className="flex items-center">
         <button
@@ -172,7 +172,7 @@ export const Sidebar: FC<Props> = ({
 
         {conversations.length > 0 ? (
           <div
-            className="h-full pt-2"
+            className="h-full w-full pt-2"
             onDrop={(e) => handleDrop(e)}
             onDragOver={allowDrop}
             onDragEnter={highlightDrop}

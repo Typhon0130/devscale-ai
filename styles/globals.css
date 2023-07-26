@@ -45,3 +45,7 @@ pre:has(div.codeblock) {
   overflow-wrap: break-word;
   width: 100%;
 }
+
+* {
+  outline: none;
+}
