@@ -210,7 +210,7 @@ export const Chat: FC<Props> = memo(
                     </>
                   ) : undefined}
 
-                  <div className="mx-auto flex w-[350px] flex-col space-y-10 pt-12 sm:w-[600px]">
+                  {/* <div className="mx-auto flex w-[350px] flex-col space-y-10 pt-12 sm:w-[600px]">
                     <div className="flex h-full flex-col space-y-4 rounded border border-neutral-200 p-4 dark:border-neutral-600">
                       <Upload
                         onIndexChange={(index) =>
@@ -254,8 +254,8 @@ export const Chat: FC<Props> = memo(
                         </>
                       )}
                     </div>
-                  </div>
-                  {isUploading ? (
+                  </div> */}
+                  {/* {isUploading ? (
                     <>
                       <div
                         role="status"
@@ -280,7 +280,7 @@ export const Chat: FC<Props> = memo(
                         <span className="sr-only">Loading...</span>
                       </div>
                     </>
-                  ) : undefined}
+                  ) : undefined} */}
                 </>
               ) : (
                 <>
