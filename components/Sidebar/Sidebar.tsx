@@ -120,9 +120,9 @@ export const Sidebar: FC<Props> = ({
     <aside
       className={`fixed top-0 bottom-0 z-50 flex h-full w-[260px] flex-none flex-col space-y-2 bg-[#202123] p-2 transition-all sm:relative sm:top-0`}
     >
-      <header className="flex items-center">
+      <header className="mt-5 flex items-center justify-center">
         <button
-          className="mt-5 flex w-full flex-shrink-0 cursor-pointer select-none items-center justify-center gap-3 rounded-md border border-white/20 bg-primary p-3 text-center text-[12.5px] leading-3 text-white transition-colors duration-200 hover:bg-bgPrimary"
+          className="flex w-[190px] flex-shrink-0 cursor-pointer select-none items-center justify-center gap-3 rounded-md border border-white/20 bg-primary p-3 text-center text-[12.5px] leading-3 text-white transition-colors duration-200 hover:bg-bgPrimary"
           onClick={() => {
             onNewConversation();
             setSearchTerm('');
@@ -132,12 +132,12 @@ export const Sidebar: FC<Props> = ({
           {t('New chat')}
         </button>
 
-        {/* <button
+        <button
           className="ml-2 flex flex-shrink-0 cursor-pointer items-center gap-3 rounded-md border border-white/20 p-3 text-[12.5px] leading-3 text-white transition-colors duration-200 hover:bg-gray-500/10"
           onClick={() => onCreateFolder(t('New folder'))}
         >
           <IconFolderPlus size={18} />
-        </button> */}
+        </button>
 
         <IconArrowBarLeft
           className="ml-1 block cursor-pointer p-1 text-neutral-300 hover:text-neutral-400 sm:hidden"
@@ -150,7 +150,7 @@ export const Sidebar: FC<Props> = ({
         <Search searchTerm={searchTerm} onSearch={setSearchTerm} />
       )}
 
-      <div className="flex flex-grow overflow-y-auto overflow-x-clip">
+      <div className="flex-grow overflow-y-auto overflow-x-clip">
         {folders.length > 0 && (
           <div className="flex border-b border-white/20 pb-2">
             <Folders
@@ -192,7 +192,7 @@ export const Sidebar: FC<Props> = ({
             />
           </div>
         ) : (
-          <div className="flex h-auto w-full flex-col items-center justify-center">
+          <div className="flex items-center justify-center">
             <div className="mt-8 select-none text-center text-white opacity-50">
               <IconMessagesOff className="mx-auto mb-3" />
               <span className="text-[12.5px] leading-3">
