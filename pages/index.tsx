@@ -588,7 +588,7 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
   return (
     <>
       <Head>
-        <title>Pacifica AI DevScale</title>
+        <title>Pacifica AI x Devscale</title>
         <meta name="description" content="ChatGPT but better." />
         <meta
           name="viewport"
