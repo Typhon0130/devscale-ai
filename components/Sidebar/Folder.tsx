@@ -8,7 +8,7 @@ import {
   IconX,
 } from '@tabler/icons-react';
 import { FC, KeyboardEvent, useEffect, useState } from 'react';
-import { ConversationComponent } from './Conversation';
+import { ConversationComponent } from './Conversation/Conversation';
 
 interface Props {
   searchTerm: string;

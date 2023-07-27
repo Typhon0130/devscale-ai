@@ -1,6 +1,6 @@
 import { Chat } from '@/components/Chat/Chat';
 import { Navbar } from '@/components/Mobile/Navbar';
-import { Sidebar } from '@/components/Sidebar/Sidebar';
+import { Sidebar } from '@/components/Sidebar/Conversation/Sidebar';
 import {
   ChatBody,
   ChatFolder,
@@ -30,6 +30,7 @@ import Head from 'next/head';
 import { useEffect, useRef, useState } from 'react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
+import PromptSidebar from '@/components/Sidebar/Prompt/PromptSidebar';
 
 interface HomeProps {
   serverSideApiKeyIsSet: boolean;
@@ -46,6 +47,7 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
   const [lightMode, setLightMode] = useState<'dark' | 'light'>('dark');
   const [messageIsStreaming, setMessageIsStreaming] = useState<boolean>(false);
   const [showSidebar, setShowSidebar] = useState<boolean>(true);
+  const [showPromptSidebar, setShowPromptSidebar] = useState<boolean>(true);
   const [apiKey, setApiKey] = useState<string>('');
   const [messageError, setMessageError] = useState<boolean>(false);
   const [modelError, setModelError] = useState<ErrorMessage | null>(null);
@@ -515,6 +517,7 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
   useEffect(() => {
     if (window.innerWidth < 640) {
       setShowSidebar(false);
+      setShowPromptSidebar(false);
     }
   }, [selectedConversation]);
 
@@ -540,6 +543,7 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
 
     if (window.innerWidth < 640) {
       setShowSidebar(false);
+      setShowPromptSidebar(false);
     }
 
     const folders = localStorage.getItem('folders');
@@ -656,6 +660,21 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
               speaking={speaking}
               setSpeaking={setSpeaking}
             />
+            {showPromptSidebar ? (
+              <div>
+                <PromptSidebar />
+
+                <div
+                  onClick={() => setShowPromptSidebar(!showPromptSidebar)}
+                  className="absolute top-0 left-0 z-10 h-full w-full bg-black opacity-70 sm:hidden"
+                ></div>
+              </div>
+            ) : (
+              <IconArrowBarRight
+                className="fixed top-2.5 left-4 z-50 h-7 w-7 cursor-pointer text-white hover:text-gray-400 dark:text-white dark:hover:text-gray-300 sm:top-0.5 sm:left-4 sm:h-8 sm:w-8 sm:text-neutral-700"
+                onClick={() => setShowPromptSidebar(!showPromptSidebar)}
+              />
+            )}
           </div>
         </main>
       )}
