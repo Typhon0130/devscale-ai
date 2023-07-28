@@ -11,10 +11,14 @@ import {
   OpenAIModel,
   OpenAIModelID,
   OpenAIModels,
+  Prompt,
+  PromptFolder,
 } from '@/types';
 import {
   cleanConversationHistory,
+  cleanPromptHistory,
   cleanSelectedConversation,
+  cleanSelectedPrompt,
 } from '@/utils/app/clean';
 import { DEFAULT_SYSTEM_PROMPT } from '@/utils/app/const';
 import {
@@ -22,6 +26,7 @@ import {
   saveConversations,
   updateConversation,
 } from '@/utils/app/conversation';
+import { savePrompt, savePrompts, updatePrompt } from '@/utils/app/prompt';
 import { saveFolders } from '@/utils/app/folders';
 import { exportData, importData } from '@/utils/app/importExport';
 import { IconArrowBarLeft, IconArrowBarRight } from '@tabler/icons-react';
@@ -53,6 +58,17 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
   const [modelError, setModelError] = useState<ErrorMessage | null>(null);
   const [currentMessage, setCurrentMessage] = useState<Message>();
   const [speaking, setSpeaking] = useState<boolean>(false);
+
+  // Prompst Stat Variable
+  const [promptloading, setPromptloading] = useState<boolean>(false);
+  const [prompts, setPrompts] = useState<Prompt[]>([]);
+  const [selectedPrompt, setSelectedPrompt] = useState<Prompt>({
+    id: 0,
+    name: '',
+    promptValue: [],
+    folderId: 0,
+  });
+  const [promptFolders, setPromptFolders] = useState<PromptFolder[]>([]);
 
   const stopConversationRef = useRef<boolean>(false);
 
@@ -333,6 +349,11 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
     saveConversation(conversation);
   };
 
+  const handleSelectPrompt = (prompt: Prompt) => {
+    setSelectedPrompt(prompt);
+    savePrompt(prompt);
+  };
+
   const handleCreateFolder = (name: string) => {
     const lastFolder = folders[folders.length - 1];
 
@@ -411,6 +432,27 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
     setLoading(false);
   };
 
+  const handleNewPrompt = () => {
+    const lastPrompt = prompts[prompts.length - 1];
+
+    const newPrompt: Prompt = {
+      id: lastPrompt ? lastPrompt.id + 1 : 1,
+      name: `${t('Prompt')} ${lastPrompt ? lastPrompt.id + 1 : 1}`,
+      folderId: 0,
+      promptValue: [],
+    };
+
+    const updatedPrompts = [...prompts, newPrompt];
+
+    setSelectedPrompt(newPrompt);
+    setPrompts(updatedPrompts);
+
+    savePrompt(newPrompt);
+    savePrompts(updatedPrompts);
+
+    setLoading(false);
+  };
+
   const handleDeleteConversation = (conversation: Conversation) => {
     const updatedConversations = conversations.filter(
       (c) => c.id !== conversation.id,
@@ -440,6 +482,25 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
     }
   };
 
+  const handleDeletePrompt = (prompt: Prompt) => {
+    const updatedPrompts = prompts.filter((p) => p.id !== prompt.id);
+    setPrompts(updatedPrompts);
+    savePrompts(updatedPrompts);
+
+    if (updatedPrompts.length > 0) {
+      setSelectedPrompt(updatedPrompts[updatedPrompts.length - 1]);
+      savePrompt(updatedPrompts[updatedPrompts.length - 1]);
+    } else {
+      setSelectedPrompt({
+        id: 1,
+        name: 'New Prompt',
+        folderId: 0,
+        promptValue: [],
+      });
+      localStorage.removeItem('selectedPrompt');
+    }
+  };
+
   const handleUpdateConversation = (
     conversation: Conversation,
     data: KeyValuePair,
@@ -456,6 +517,18 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
 
     setSelectedConversation(single);
     setConversations(all);
+  };
+
+  const handleUpdatePrompt = (prompt: Prompt, data: KeyValuePair) => {
+    const updatedPrompt = {
+      ...prompt,
+      [data.key]: data.value,
+    };
+
+    const { single, all } = updatePrompt(updatedPrompt, prompts);
+
+    setSelectedPrompt(single);
+    setPrompts(all);
   };
 
   const handleClearConversations = () => {
@@ -478,6 +551,22 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
 
     setFolders([]);
     localStorage.removeItem('folders');
+  };
+
+  const handleClearPrompts = () => {
+    setPrompts([]);
+    localStorage.removeItem('promptHistory');
+
+    setSelectedPrompt({
+      id: 1,
+      name: 'New Prompt',
+      promptValue: [],
+      folderId: 0,
+    });
+    localStorage.removeItem('selectedPrompt');
+
+    setFolders([]);
+    localStorage.removeItem('promptFolders');
   };
 
   const handleEditMessage = (message: Message, messageIndex: number) => {
@@ -551,6 +640,11 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
       setFolders(JSON.parse(folders));
     }
 
+    const promptFolders = localStorage.getItem('promptFolders');
+    if (promptFolders) {
+      setFolders(JSON.parse(promptFolders));
+    }
+
     const conversationHistory = localStorage.getItem('conversationHistory');
     if (conversationHistory) {
       const parsedConversationHistory: Conversation[] =
@@ -559,6 +653,13 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
         parsedConversationHistory,
       );
       setConversations(cleanedConversationHistory);
+    }
+
+    const promptHistory = localStorage.getItem('promptHistory');
+    if (promptHistory) {
+      const parsedPromptHistory: Prompt[] = JSON.parse(promptHistory);
+      const cleanedPromptHistory = cleanPromptHistory(parsedPromptHistory);
+      setPrompts(cleanedPromptHistory);
     }
 
     const selectedConversation = localStorage.getItem('selectedConversation');
@@ -662,7 +763,21 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
             />
             {showPromptSidebar ? (
               <div>
-                <PromptSidebar />
+                <PromptSidebar
+                  loading={promptloading}
+                  prompts={prompts}
+                  selectedPrompt={selectedPrompt}
+                  folders={promptFolders}
+                  onCreateFolder={handleCreateFolder}
+                  onDeleteFolder={handleDeleteFolder}
+                  onUpdateFolder={handleUpdateFolder}
+                  onNewPrompt={handleNewPrompt}
+                  onSelectPrompt={handleSelectPrompt}
+                  onDeletePrompt={handleDeletePrompt}
+                  onToggleSidebar={() => setShowPromptSidebar(!showSidebar)}
+                  onUpdatePrompt={handleUpdatePrompt}
+                  onClearPrompts={handleClearPrompts}
+                />
 
                 <div
                   onClick={() => setShowPromptSidebar(!showPromptSidebar)}

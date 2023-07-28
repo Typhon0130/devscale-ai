@@ -25,9 +25,19 @@ export interface Message {
   // date: string;
 }
 
+export interface PromptValue {
+  description: string;
+  value: string;
+}
+
 export type Role = 'assistant' | 'user';
 
 export interface ChatFolder {
+  id: number;
+  name: string;
+}
+
+export interface PromptFolder {
   id: number;
   name: string;
 }
@@ -40,6 +50,13 @@ export interface Conversation {
   prompt: string;
   folderId: number;
   index: LlamaIndex;
+}
+
+export interface Prompt {
+  id: number;
+  name: string;
+  promptValue: PromptValue[];
+  folderId: number;
 }
 
 export interface ChatBody {

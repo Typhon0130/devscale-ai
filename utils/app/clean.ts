@@ -1,4 +1,4 @@
-import { Conversation, OpenAIModelID, OpenAIModels } from '@/types';
+import { Conversation, OpenAIModelID, OpenAIModels, Prompt } from '@/types';
 import { DEFAULT_SYSTEM_PROMPT } from './const';
 
 export const cleanSelectedConversation = (conversation: Conversation) => {
@@ -34,11 +34,20 @@ export const cleanSelectedConversation = (conversation: Conversation) => {
   return updatedConversation;
 };
 
-export const cleanConversationHistory = (history: Conversation[]) => {
-  // added model for each conversation (3/20/23)
-  // added system prompt for each conversation (3/21/23)
-  // added folders (3/23/23)
+export const cleanSelectedPrompt = (prompt: Prompt) => {
+  let updatedPrompt = prompt;
 
+  if (!updatedPrompt.folderId) {
+    updatedPrompt = {
+      ...updatedPrompt,
+      folderId: updatedPrompt.folderId || 0,
+    };
+  }
+
+  return updatedPrompt;
+};
+
+export const cleanConversationHistory = (history: Conversation[]) => {
   return history.reduce((acc: Conversation[], conversation) => {
     try {
       if (!conversation.model) {
@@ -54,6 +63,25 @@ export const cleanConversationHistory = (history: Conversation[]) => {
       }
 
       acc.push(conversation);
+      return acc;
+    } catch (error) {
+      console.warn(
+        `error while cleaning conversations' history. Removing culprit`,
+        error,
+      );
+    }
+    return acc;
+  }, []);
+};
+
+export const cleanPromptHistory = (history: Prompt[]) => {
+  return history.reduce((acc: Prompt[], prompt) => {
+    try {
+      if (!prompt.folderId) {
+        prompt.folderId = 0;
+      }
+
+      acc.push(prompt);
       return acc;
     } catch (error) {
       console.warn(
