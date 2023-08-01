@@ -17,7 +17,7 @@ interface Props {
   loading: boolean;
   prompts: Prompt[];
   selectedPrompt: Prompt;
-  folders: PromptFolder[];
+  promptfolders: PromptFolder[];
   onCreateFolder: (name: string) => void;
   onDeleteFolder: (folderId: number) => void;
   onUpdateFolder: (folderId: number, name: string) => void;
@@ -33,7 +33,7 @@ const PromptSidebar: FC<Props> = ({
   loading,
   prompts,
   selectedPrompt,
-  folders,
+  promptfolders,
   onCreateFolder,
   onDeleteFolder,
   onUpdateFolder,
@@ -132,14 +132,14 @@ const PromptSidebar: FC<Props> = ({
       )}
 
       <div className="flex-grow overflow-y-auto overflow-x-clip">
-        {folders.length > 0 && (
+        {promptfolders.length > 0 && (
           <div className="flex border-b border-white/20 pb-2">
             <PromptFolders
               searchTerm={searchTerm}
               prompts={filteredPrompts.filter(
                 (prompt) => prompt.folderId !== 0,
               )}
-              folders={folders}
+              folders={promptfolders}
               onDeleteFolder={onDeleteFolder}
               onUpdateFolder={onUpdateFolder}
               selectedPrompt={selectedPrompt}
@@ -163,7 +163,7 @@ const PromptSidebar: FC<Props> = ({
               loading={loading}
               prompts={filteredPrompts.filter(
                 (prompt) =>
-                  prompt.folderId === 0 || !folders[prompt.folderId - 1],
+                  prompt.folderId === 0 || !promptfolders[prompt.folderId - 1],
               )}
               selectedPrompt={selectedPrompt}
               onSelectPrompt={onSelectPrompt}

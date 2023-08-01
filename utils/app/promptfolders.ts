@@ -1,5 +1,5 @@
 import { PromptFolder } from '@/types';
 
-export const saveFolders = (promptfolders: PromptFolder[]) => {
+export const savePromptFolders = (promptfolders: PromptFolder[]) => {
   localStorage.setItem('promptfolders', JSON.stringify(promptfolders));
 };
