@@ -14,8 +14,8 @@ interface Props {
   message: Message;
   messageIndex: number;
   onEditMessage: (message: Message, messageIndex: number) => void;
-  speaking: boolean,
-  setSpeaking: (speaking: boolean) => void
+  speaking: boolean;
+  setSpeaking: (speaking: boolean) => void;
 }
 
 export const ChatMessage: FC<Props> = memo(
@@ -75,14 +75,19 @@ export const ChatMessage: FC<Props> = memo(
         const utterance = new SpeechSynthesisUtterance(message.content);
         console.log(speechSynthesis.getVoices());
         // const voices = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith("en") && voice.name.includes('Female'));
-        const voices = speechSynthesis.getVoices().filter(voice => voice.voiceURI === 'Microsoft Zira - English (United States)');
+        const voices = speechSynthesis
+          .getVoices()
+          .filter(
+            (voice) =>
+              voice.voiceURI === 'Microsoft Zira - English (United States)',
+          );
         if (voices.length > 0) {
           utterance.voice = voices[0];
         }
         window.speechSynthesis.speak(utterance);
         setSpeaking(true);
       }
-    }
+    };
 
     useEffect(() => {
       if (textareaRef.current) {
@@ -224,12 +229,11 @@ export const ChatMessage: FC<Props> = memo(
                       messagedCopied={messagedCopied}
                       copyOnClick={copyOnClick}
                     />
-                    <SpeechButton
+                    {/* <SpeechButton
                       speechOnToggle={speechOnToggle}
                       speaking={speaking}
-                    />
+                    /> */}
                   </div>
-
                 )}
               </>
             )}
