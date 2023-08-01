@@ -36,6 +36,7 @@ import { useEffect, useRef, useState } from 'react';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import PromptSidebar from '@/components/Sidebar/Prompt/PromptSidebar';
+import { savePromptFolders } from '@/utils/app/promptfolders';
 
 interface HomeProps {
   serverSideApiKeyIsSet: boolean;
@@ -44,6 +45,7 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
   const { t } = useTranslation('chat');
   const [folders, setFolders] = useState<ChatFolder[]>([]);
+  const [promptFolders, setPromptFolders] = useState<PromptFolder[]>([]);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversation, setSelectedConversation] =
     useState<Conversation>();
@@ -68,7 +70,6 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
     promptValue: [],
     folderId: 0,
   });
-  const [promptFolders, setPromptFolders] = useState<PromptFolder[]>([]);
 
   const stopConversationRef = useRef<boolean>(false);
 
@@ -366,6 +367,22 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
 
     setFolders(updatedFolders);
     saveFolders(updatedFolders);
+    console.log(folders, 'folders');
+  };
+
+  const handleCreatePromptFolder = (name: string) => {
+    const lastFolder = promptFolders[promptFolders.length - 1];
+
+    const newFolder: PromptFolder = {
+      id: lastFolder ? lastFolder.id + 1 : 1,
+      name,
+    };
+
+    const updatedFolders = [...promptFolders, newFolder];
+
+    setPromptFolders(updatedFolders);
+    savePromptFolders(updatedFolders);
+    console.log(promptFolders, 'promptFolders');
   };
 
   const handleDeleteFolder = (folderId: number) => {
@@ -387,6 +404,25 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
     saveConversations(updatedConversations);
   };
 
+  const handleDeletePromptFolder = (folderId: number) => {
+    const updatedFolders = promptFolders.filter((f) => f.id !== folderId);
+    setPromptFolders(updatedFolders);
+    savePromptFolders(updatedFolders);
+
+    // const updatedConversations: Conversation[] = conversations.map((c) => {
+    //   if (c.folderId === folderId) {
+    //     return {
+    //       ...c,
+    //       folderId: 0,
+    //     };
+    //   }
+
+    //   return c;
+    // });
+    // setConversations(updatedConversations);
+    // saveConversations(updatedConversations);
+  };
+
   const handleUpdateFolder = (folderId: number, name: string) => {
     const updatedFolders = folders.map((f) => {
       if (f.id === folderId) {
@@ -401,6 +437,25 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
 
     setFolders(updatedFolders);
     saveFolders(updatedFolders);
+  };
+
+  const handleUpdatePromptFolder = (folderId: number, name: string) => {
+    console.log(folderId, name);
+    const updatedPromptFolders = promptFolders.map((f) => {
+      if (f.id === folderId) {
+        return {
+          ...f,
+          name,
+        };
+      }
+
+      return f;
+    });
+
+    console.log(updatedPromptFolders, 'updatedPromptFolders');
+
+    setPromptFolders(updatedPromptFolders);
+    savePromptFolders(updatedPromptFolders);
   };
 
   const handleNewConversation = () => {
@@ -640,9 +695,10 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
       setFolders(JSON.parse(folders));
     }
 
-    const promptFolders = localStorage.getItem('promptFolders');
+    const promptFolders = localStorage.getItem('promptfolders');
+
     if (promptFolders) {
-      setFolders(JSON.parse(promptFolders));
+      setPromptFolders(JSON.parse(promptFolders));
     }
 
     const conversationHistory = localStorage.getItem('conversationHistory');
@@ -767,10 +823,10 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
                   loading={promptloading}
                   prompts={prompts}
                   selectedPrompt={selectedPrompt}
-                  folders={promptFolders}
-                  onCreateFolder={handleCreateFolder}
-                  onDeleteFolder={handleDeleteFolder}
-                  onUpdateFolder={handleUpdateFolder}
+                  promptfolders={promptFolders}
+                  onCreateFolder={handleCreatePromptFolder}
+                  onDeleteFolder={handleDeletePromptFolder}
+                  onUpdateFolder={handleUpdatePromptFolder}
                   onNewPrompt={handleNewPrompt}
                   onSelectPrompt={handleSelectPrompt}
                   onDeletePrompt={handleDeletePrompt}

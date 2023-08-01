@@ -1,10 +1,10 @@
 import { KeyValuePair, Prompt } from '@/types';
 import {
   IconCheck,
-  IconMessage,
   IconPencil,
   IconTrash,
   IconX,
+  IconPrompt,
 } from '@tabler/icons-react';
 import React, {
   DragEvent,
@@ -65,7 +65,7 @@ const PromptComponent: FC<Props> = ({
     <div className="relative flex items-center">
       {isRenaming && selectedPrompt.id === prompt.id ? (
         <div className="flex w-full items-center gap-3 bg-[#343541]/90 p-3">
-          <IconMessage size={18} />
+          <IconPrompt size={18} />
           <input
             className="mr-12 flex-1 overflow-hidden overflow-ellipsis bg-transparent text-left text-[12.5px] leading-3 text-white outline-none focus:border-neutral-100"
             type="text"
@@ -85,7 +85,7 @@ const PromptComponent: FC<Props> = ({
           draggable="true"
           onDragStart={(e) => handleDragStart(e, prompt)}
         >
-          <IconMessage
+          <IconPrompt
             size={18}
             style={{
               color: `${selectedPrompt.id === prompt.id ? '#FADA5E' : ''}`,
