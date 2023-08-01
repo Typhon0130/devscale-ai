@@ -122,7 +122,7 @@ const PromptSidebar: FC<Props> = ({
         </button>
 
         <IconArrowBarLeft
-          className="ml-1 block cursor-pointer p-1 text-neutral-300 hover:text-neutral-400 sm:hidden"
+          className="ml-1 block cursor-pointer p-1 text-neutral-300 hover:text-neutral-400 md:hidden"
           size={32}
           onClick={onToggleSidebar}
         />
