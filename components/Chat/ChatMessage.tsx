@@ -9,6 +9,7 @@ import { CodeBlock } from '../Markdown/CodeBlock';
 import { MemoizedReactMarkdown } from '../Markdown/MemoizedReactMarkdown';
 import { CopyButton } from './CopyButton';
 import { SpeechButton } from './SpeechButton';
+import Date from './Date';
 
 interface Props {
   message: Message;
@@ -159,19 +160,24 @@ export const ChatMessage: FC<Props> = memo(
                 )}
 
                 {(isHovering || window.innerWidth < 640) && !isEditing && (
-                  <button
-                    className={`absolute ${
-                      window.innerWidth < 640
-                        ? 'right-3 bottom-1'
-                        : 'right-[-20px] top-[26px]'
-                    }`}
+                  <div
+                    className={`${window.innerWidth < 640 ? 'pt-4' : 'pt-0'}`}
                   >
-                    <IconEdit
-                      size={20}
-                      className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
-                      onClick={toggleEditing}
-                    />
-                  </button>
+                    <button
+                      className={`absolute ${
+                        window.innerWidth < 640
+                          ? 'right-3 bottom-1'
+                          : 'right-[-20px] top-[26px]'
+                      }`}
+                    >
+                      <IconEdit
+                        size={20}
+                        className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                        onClick={toggleEditing}
+                      />
+                    </button>
+                    <Date />
+                  </div>
                 )}
               </div>
             ) : (
@@ -224,7 +230,9 @@ export const ChatMessage: FC<Props> = memo(
                 </MemoizedReactMarkdown>
 
                 {(isHovering || window.innerWidth < 640) && (
-                  <div>
+                  <div
+                    className={`${window.innerWidth < 640 ? 'pt-4' : 'pt-0'}`}
+                  >
                     <CopyButton
                       messagedCopied={messagedCopied}
                       copyOnClick={copyOnClick}
@@ -233,6 +241,7 @@ export const ChatMessage: FC<Props> = memo(
                       speechOnToggle={speechOnToggle}
                       speaking={speaking}
                     /> */}
+                    <Date />
                   </div>
                 )}
               </>

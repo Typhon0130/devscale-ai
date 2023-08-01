@@ -757,14 +757,14 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
         <main
           className={`flex h-screen w-screen flex-col text-sm text-white dark:text-white ${lightMode}`}
         >
-          <div className="fixed top-0 w-full sm:hidden">
+          <div className="fixed top-0 w-full lg:hidden">
             <Navbar
               selectedConversation={selectedConversation}
               onNewConversation={handleNewConversation}
             />
           </div>
 
-          <div className="flex h-full w-full pt-[48px] sm:pt-0">
+          <div className="flex h-full w-full pt-[48px] lg:pt-0">
             {showSidebar ? (
               <div>
                 <Sidebar
@@ -791,12 +791,12 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
 
                 <div
                   onClick={() => setShowSidebar(!showSidebar)}
-                  className="absolute top-0 left-0 z-10 h-full w-full bg-black opacity-70 sm:hidden"
+                  className="absolute top-0 left-0 z-10 h-full w-full bg-black opacity-70 lg:hidden"
                 ></div>
               </div>
             ) : (
               <IconArrowBarRight
-                className="fixed top-2.5 left-4 z-50 h-7 w-7 cursor-pointer text-white hover:text-gray-400 dark:text-white dark:hover:text-gray-300 sm:top-0.5 sm:left-4 sm:h-8 sm:w-8 sm:text-neutral-700"
+                className="fixed top-2.5 left-4 z-50 h-7 w-7 cursor-pointer text-white hover:text-gray-400 dark:text-white dark:hover:text-gray-300 sm:top-0.5 sm:h-8 sm:w-8 sm:text-neutral-700 lg:left-4"
                 onClick={() => setShowSidebar(!showSidebar)}
               />
             )}
@@ -837,12 +837,12 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
 
                 <div
                   onClick={() => setShowPromptSidebar(!showPromptSidebar)}
-                  className="absolute top-0 left-0 z-10 h-full w-full bg-black opacity-70 sm:hidden"
+                  className="absolute top-0 left-0 z-10 h-full w-full bg-black opacity-70 lg:hidden"
                 ></div>
               </div>
             ) : (
               <IconArrowBarLeft
-                className="fixed top-2.5 right-4 z-50 h-7 w-7 cursor-pointer text-white hover:text-gray-400 dark:text-white dark:hover:text-gray-300 sm:top-0.5 sm:left-4 sm:h-8 sm:w-8 sm:text-neutral-700"
+                className="fixed top-2.5 right-4 z-50 h-7 w-7 cursor-pointer text-white hover:text-gray-400 dark:text-white dark:hover:text-gray-300 sm:top-0.5 sm:right-4 sm:h-8 sm:w-8 sm:text-neutral-700"
                 onClick={() => setShowPromptSidebar(!showPromptSidebar)}
               />
             )}

@@ -127,7 +127,7 @@ export const Chat: FC<Props> = memo(
     }, [messagesEndRef]);
 
     return (
-      <div className="overflow-none relative flex-1 bg-white dark:bg-[#343541]">
+      <div className="overflow-none relative w-[95%] flex-1 bg-white dark:bg-[#343541]">
         {!(apiKey || serverSideApiKeyIsSet) ? (
           <div className="mx-auto flex h-full w-[300px] flex-col justify-center space-y-6 sm:w-[500px]">
             <div className="text-center text-2xl font-semibold text-gray-800 dark:text-gray-100">
