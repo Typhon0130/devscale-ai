@@ -14,7 +14,7 @@ import { ChatLoader } from './ChatLoader';
 import { ChatMessage } from './ChatMessage';
 import { ErrorMessageDiv } from './ErrorMessageDiv';
 import { ModelSelect } from './ModelSelect';
-import { Upload } from '@/components/Chat/Upload';
+import { Upload } from '@/pages/admin/Upload';
 import { CHAT_FILES_MAX_SIZE } from '@/utils/app/const';
 import { humanFileSize } from '@/utils/app/files';
 
