@@ -1,6 +1,10 @@
-import { OpenAI } from 'langchain/llms/openai';
+import { OpenAI, OpenAIChat } from 'langchain/llms/openai';
 import { PineconeStore } from 'langchain/vectorstores/pinecone';
-import { ConversationalRetrievalQAChain } from 'langchain/chains';
+import {
+  ConversationalRetrievalQAChain,
+  LLMChain,
+  loadQAChain,
+} from 'langchain/chains';
 
 const CONDENSE_PROMPT = `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
 Chat History:
