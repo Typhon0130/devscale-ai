@@ -18,7 +18,6 @@ import {
   cleanConversationHistory,
   cleanPromptHistory,
   cleanSelectedConversation,
-  cleanSelectedPrompt,
 } from '@/utils/app/clean';
 import { DEFAULT_SYSTEM_PROMPT } from '@/utils/app/const';
 import {
@@ -72,17 +71,6 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
   });
 
   const stopConversationRef = useRef<boolean>(false);
-
-  // useEffect(() => {
-  //   window.speechSynthesis.getVoices();
-  //   setSpeaking(true);
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!speaking) {
-  //     window.speechSynthesis.cancel();
-  //   }
-  // }, [speaking]);
 
   const handleSend = async (message: Message, deleteCount = 0) => {
     if (selectedConversation) {
@@ -211,21 +199,6 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
             setSelectedConversation(updatedConversation);
           }
         }
-        // // Speech-to-Text after bot reply
-        // if (speaking) {
-        //   const utterance = new SpeechSynthesisUtterance(text);
-        //   // const voices = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith("en") && voice.name.includes('Female'));
-        //   const voices = window.speechSynthesis
-        //     .getVoices()
-        //     .filter(
-        //       (voice) =>
-        //         voice.voiceURI === 'Microsoft Zira - English (United States)',
-        //     );
-        //   if (voices.length > 0) {
-        //     utterance.voice = voices[0];
-        //   }
-        //   window.speechSynthesis.speak(utterance);
-        // }
       } else {
         // send to chat file server
         const response = await fetch(
@@ -408,19 +381,6 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
     const updatedFolders = promptFolders.filter((f) => f.id !== folderId);
     setPromptFolders(updatedFolders);
     savePromptFolders(updatedFolders);
-
-    // const updatedConversations: Conversation[] = conversations.map((c) => {
-    //   if (c.folderId === folderId) {
-    //     return {
-    //       ...c,
-    //       folderId: 0,
-    //     };
-    //   }
-
-    //   return c;
-    // });
-    // setConversations(updatedConversations);
-    // saveConversations(updatedConversations);
   };
 
   const handleUpdateFolder = (folderId: number, name: string) => {
