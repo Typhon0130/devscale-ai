@@ -9,8 +9,6 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'next-i18next';
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-// import addNotification from 'react-push-notification';
 
 interface Props {
   messageIsStreaming: boolean;
@@ -34,42 +32,6 @@ export const ChatInput: FC<Props> = ({
   const { t } = useTranslation('chat');
   const [content, setContent] = useState<string>();
   const [isTyping, setIsTyping] = useState<boolean>(false);
-  const [listen, setListen] = useState<boolean>(false);
-  const [speechCatch, setSpeechCatch] = useState<string>('');
-
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition
-  } = useSpeechRecognition();
-
-  useEffect(() => {
-    SpeechRecognition.startListening();
-    console.log('Speech Available => ' + browserSupportsSpeechRecognition)
-  }, []);
-
-  useEffect(() => {
-    if (!listening) {
-      if (listen) {
-        const text: string | undefined = content;
-        if (text !== undefined) {
-          setContent(text + speechCatch);
-        } else {
-          setContent(speechCatch);
-        }
-        setSpeechCatch('');
-      }
-      SpeechRecognition.startListening();
-    }
-  }, [listening]);
-  
-  useEffect(() => {
-    handleVoiceCommand(transcript);
-    if (listen) {
-      setSpeechCatch(transcript);
-    }
-  }, [transcript]);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
@@ -88,16 +50,6 @@ export const ChatInput: FC<Props> = ({
     }
 
     if (!content) {
-      // addNotification({
-      //   title: "Warning!",
-      //   subtitle: "Please enter a message",
-      //   // message: `Total: ${result.length}`,
-      //   theme: "red",
-      //   duration: 5000,
-      //   native: false,
-      //   closeButton: "X",
-      // })
-      // alert(t('Please enter a message'));
       return;
     }
 
@@ -126,25 +78,21 @@ export const ChatInput: FC<Props> = ({
     }
   };
 
-  function handleVoiceCommand (command: string) {
+  function handleVoiceCommand(command: string) {
     console.log(`command :=> ${command.toLowerCase()}`);
     const startCommandList: string[] = [
-      'despot', 'missbot', 'baseball', 'misbot', 'missput', 'misssport', 'misssports', 'despot', 'misbah', 'missbut', 'mispot'
+      'despot',
+      'missbot',
+      'baseball',
+      'misbot',
+      'missput',
+      'misssport',
+      'misssports',
+      'despot',
+      'misbah',
+      'missbut',
+      'mispot',
     ];
-    if (startCommandList.filter((item: string) => 
-      item.trim().replace(' ', '') === command).length > 0) {
-      console.log(`start command`)
-      setListen(true);
-    }
-    const sendCommandList: string[] = [
-      'send', 'cend', 'cent', 'sen'
-    ];
-    if (sendCommandList.filter((item: string) => 
-    item.trim().replace(' ', '') === command).length > 0) {
-      console.log(`send command`);
-      setListen(false);
-      handleSend();
-    }
   }
 
   useEffect(() => {
@@ -186,7 +134,7 @@ export const ChatInput: FC<Props> = ({
             {t('Regenerate response')}
           </button>
         )}
-        <div className="relative flex w-full flex-grow flex-col rounded-md border border-black/10 bg-white py-2 shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:border-gray-900/50 dark:bg-[#40414F] dark:text-white dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] md:py-3 md:pl-4">  
+        <div className="relative flex w-full flex-grow flex-col rounded-md border border-black/10 bg-white py-2 shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:border-gray-900/50 dark:bg-[#40414F] dark:text-white dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] md:py-3 md:pl-4">
           <textarea
             ref={textareaRef}
             className="m-0 w-full resize-none border-0 bg-transparent p-0 pr-7 text-black outline-none focus:ring-0 focus-visible:ring-0 dark:bg-transparent dark:text-white md:pl-0"

@@ -1,7 +1,7 @@
 import { Message } from '@/types';
 import { IconEdit } from '@tabler/icons-react';
 import { useTranslation } from 'next-i18next';
-import { Fragment, FC, useEffect, useRef, useState, memo } from 'react';
+import { FC, useEffect, useRef, useState, memo } from 'react';
 import rehypeMathjax from 'rehype-mathjax';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -14,8 +14,6 @@ interface Props {
   message: Message;
   messageIndex: number;
   onEditMessage: (message: Message, messageIndex: number) => void;
-  // speaking: boolean;
-  // setSpeaking: (speaking: boolean) => void;
 }
 
 export const ChatMessage: FC<Props> = memo(
@@ -66,28 +64,6 @@ export const ChatMessage: FC<Props> = memo(
         }, 2000);
       });
     };
-
-    // const speechOnToggle = () => {
-    //   if (speaking) {
-    //     window.speechSynthesis.cancel();
-    //     setSpeaking(false);
-    //   } else {
-    //     const utterance = new SpeechSynthesisUtterance(message.content);
-    //     console.log(speechSynthesis.getVoices());
-    //     // const voices = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith("en") && voice.name.includes('Female'));
-    //     const voices = speechSynthesis
-    //       .getVoices()
-    //       .filter(
-    //         (voice) =>
-    //           voice.voiceURI === 'Microsoft Zira - English (United States)',
-    //       );
-    //     if (voices.length > 0) {
-    //       utterance.voice = voices[0];
-    //     }
-    //     window.speechSynthesis.speak(utterance);
-    //     setSpeaking(true);
-    //   }
-    // };
 
     useEffect(() => {
       if (textareaRef.current) {
@@ -236,10 +212,6 @@ export const ChatMessage: FC<Props> = memo(
                       messagedCopied={messagedCopied}
                       copyOnClick={copyOnClick}
                     />
-                    {/* <SpeechButton
-                      speechOnToggle={speechOnToggle}
-                      speaking={speaking}
-                    /> */}
                     <Date />
                   </div>
                 )}
