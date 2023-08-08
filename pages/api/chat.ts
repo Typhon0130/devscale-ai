@@ -3,66 +3,100 @@ import { DEFAULT_SYSTEM_PROMPT } from '@/utils/app/const';
 import { OpenAIStream } from '@/utils/server';
 import tiktokenModel from '@dqbd/tiktoken/encoders/cl100k_base.json';
 import { init, Tiktoken } from '@dqbd/tiktoken/lite/init';
+
 // @ts-expect-error
 import wasm from '../../node_modules/@dqbd/tiktoken/lite/tiktoken_bg.wasm?module';
 import { PineconeClient } from '@pinecone-database/pinecone';
 import { PineconeStore } from 'langchain/vectorstores/pinecone';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
+import {
+  AIChatMessage,
+  BaseChatMessage,
+  HumanChatMessage,
+} from 'langchain/schema';
+import {
+  ChatPromptTemplate,
+  HumanMessagePromptTemplate,
+} from 'langchain/prompts';
+import { BufferMemory, ChatMessageHistory } from 'langchain/memory';
+import { RetrievalQAChain, LLMChain } from 'langchain/chains';
+import { OpenAI } from 'langchain/llms/openai';
+import { ChatOpenAI } from 'langchain/chat_models';
 import { makeChain } from '@/utils/makechain';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getChatModel } from '@/utils/server/opnai';
 
 // export const config = {
 //   runtime: 'edge',
 // };
 
-const PineconeData = async (req: NextApiRequest, res: NextApiResponse) => {
-  // Set Config PineCone Environment
-  const pinecone = new PineconeClient();
-  await pinecone.init({
-    environment: process.env.PINECONE_ENVIRONMENT as string,
-    apiKey: process.env.PINECONE_API_KEY as string,
-  });
-  const { key, messages, model, prompt } = req.body as ChatBody;
+const hanlder = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { messages, prompt } = req.body as ChatBody;
 
-  // OpenAI recommends replacing newlines with space for best results
-  const sanitizedQuestion = messages[messages.length - 1].content
-    .trim()
-    .replaceAll('\n', ' ');
+  let input: string;
 
-  console.log(sanitizedQuestion, 'sanitizedQuestion');
+  if (messages.length === 1) {
+    input = messages[0].content;
+  } else {
+    input = messages[messages.length - 1].content;
+  }
 
-  const index = pinecone.Index(process.env.PINECONE_INDEX ?? '');
-
-  // Create VectorStore
-  const dbConfig = {
-    pineconeIndex: index,
-    namespace: process.env.PINECONE_NAMESPACE ?? '',
-    textKey: 'text',
-  };
-  const vectorStore = await PineconeStore.fromExistingIndex(
-    new OpenAIEmbeddings({}),
-    dbConfig,
-  );
-  res.writeHead(200, {
-    'Content-Type': 'text/event-strea',
-    'Cache-Control': 'no-cache, no-transform',
-    Connection: 'keep-alive',
-  });
-
-  // create chain
-  const chain = makeChain(vectorStore);
-
-  try {
-    const response = await chain.call({
-      question: sanitizedQuestion,
-      chat_history: messages || [],
+  const historyMessages: BaseChatMessage[] = messages
+    ?.slice(0, messages.length - 1)
+    .map((message) => {
+      if (message.role === 'user') {
+        return new HumanChatMessage(message.content);
+      } else if (message.role === 'assistant') {
+        return new AIChatMessage(message.content);
+      }
+      throw new TypeError('Invalid message role');
     });
 
-    console.log('respose', response);
-  } catch (error) {
-    console.log(error);
-  } finally {
-    res.end();
+  try {
+    const llm = await getChatModel(res);
+
+    const promptTemplate = ChatPromptTemplate.fromPromptMessages([
+      // SystemMessagePromptTemplate.fromTemplate(prompt ? prompt : DEFAULT_SYSTEM_PROMPT),
+      // new MessagesPlaceholder("history"),
+      HumanMessagePromptTemplate.fromTemplate('{input}'),
+    ]);
+
+    const memory = new BufferMemory({
+      returnMessages: true,
+      chatHistory: new ChatMessageHistory(historyMessages),
+    });
+
+    // Set Config PineCone Environment
+    const pinecone = new PineconeClient();
+    await pinecone.init({
+      environment: process.env.PINECONE_ENVIRONMENT as string,
+      apiKey: process.env.PINECONE_API_KEY as string,
+    });
+
+    const index = pinecone.Index(process.env.PINECONE_INDEX ?? '');
+
+    // Create VectorStore
+    const dbConfig = {
+      pineconeIndex: index,
+      namespace: process.env.PINECONE_NAMESPACE ?? '',
+      textKey: 'text',
+    };
+    const vectorStore = await PineconeStore.fromExistingIndex(
+      new OpenAIEmbeddings({}),
+      dbConfig,
+    );
+    res.writeHead(200, {
+      'Content-Type': 'text/event-strea',
+      'Cache-Control': 'no-cache, no-transform',
+      Connection: 'keep-alive',
+    });
+
+    const chain = RetrievalQAChain.fromLLM(llm, vectorStore.asRetriever());
+
+    const response = await chain.call({ query: input });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ errorMessage: (err as Error).toString() });
   }
 };
 
@@ -112,4 +146,4 @@ const PineconeData = async (req: NextApiRequest, res: NextApiResponse) => {
 //   }
 // };
 
-export default PineconeData;
+export default hanlder;

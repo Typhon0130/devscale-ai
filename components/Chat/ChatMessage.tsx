@@ -8,19 +8,18 @@ import remarkMath from 'remark-math';
 import { CodeBlock } from '../Markdown/CodeBlock';
 import { MemoizedReactMarkdown } from '../Markdown/MemoizedReactMarkdown';
 import { CopyButton } from './CopyButton';
-import { SpeechButton } from './SpeechButton';
 import Date from './Date';
 
 interface Props {
   message: Message;
   messageIndex: number;
   onEditMessage: (message: Message, messageIndex: number) => void;
-  speaking: boolean;
-  setSpeaking: (speaking: boolean) => void;
+  // speaking: boolean;
+  // setSpeaking: (speaking: boolean) => void;
 }
 
 export const ChatMessage: FC<Props> = memo(
-  ({ message, messageIndex, onEditMessage, speaking, setSpeaking }) => {
+  ({ message, messageIndex, onEditMessage }) => {
     const { t } = useTranslation('chat');
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [isHovering, setIsHovering] = useState<boolean>(false);
@@ -68,27 +67,27 @@ export const ChatMessage: FC<Props> = memo(
       });
     };
 
-    const speechOnToggle = () => {
-      if (speaking) {
-        window.speechSynthesis.cancel();
-        setSpeaking(false);
-      } else {
-        const utterance = new SpeechSynthesisUtterance(message.content);
-        console.log(speechSynthesis.getVoices());
-        // const voices = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith("en") && voice.name.includes('Female'));
-        const voices = speechSynthesis
-          .getVoices()
-          .filter(
-            (voice) =>
-              voice.voiceURI === 'Microsoft Zira - English (United States)',
-          );
-        if (voices.length > 0) {
-          utterance.voice = voices[0];
-        }
-        window.speechSynthesis.speak(utterance);
-        setSpeaking(true);
-      }
-    };
+    // const speechOnToggle = () => {
+    //   if (speaking) {
+    //     window.speechSynthesis.cancel();
+    //     setSpeaking(false);
+    //   } else {
+    //     const utterance = new SpeechSynthesisUtterance(message.content);
+    //     console.log(speechSynthesis.getVoices());
+    //     // const voices = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith("en") && voice.name.includes('Female'));
+    //     const voices = speechSynthesis
+    //       .getVoices()
+    //       .filter(
+    //         (voice) =>
+    //           voice.voiceURI === 'Microsoft Zira - English (United States)',
+    //       );
+    //     if (voices.length > 0) {
+    //       utterance.voice = voices[0];
+    //     }
+    //     window.speechSynthesis.speak(utterance);
+    //     setSpeaking(true);
+    //   }
+    // };
 
     useEffect(() => {
       if (textareaRef.current) {

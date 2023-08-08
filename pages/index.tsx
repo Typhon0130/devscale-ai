@@ -73,16 +73,16 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
 
   const stopConversationRef = useRef<boolean>(false);
 
-  useEffect(() => {
-    window.speechSynthesis.getVoices();
-    setSpeaking(true);
-  }, []);
+  // useEffect(() => {
+  //   window.speechSynthesis.getVoices();
+  //   setSpeaking(true);
+  // }, []);
 
-  useEffect(() => {
-    if (!speaking) {
-      window.speechSynthesis.cancel();
-    }
-  }, [speaking]);
+  // useEffect(() => {
+  //   if (!speaking) {
+  //     window.speechSynthesis.cancel();
+  //   }
+  // }, [speaking]);
 
   const handleSend = async (message: Message, deleteCount = 0) => {
     if (selectedConversation) {
@@ -211,21 +211,21 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
             setSelectedConversation(updatedConversation);
           }
         }
-        // Speech-to-Text after bot reply
-        if (speaking) {
-          const utterance = new SpeechSynthesisUtterance(text);
-          // const voices = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith("en") && voice.name.includes('Female'));
-          const voices = window.speechSynthesis
-            .getVoices()
-            .filter(
-              (voice) =>
-                voice.voiceURI === 'Microsoft Zira - English (United States)',
-            );
-          if (voices.length > 0) {
-            utterance.voice = voices[0];
-          }
-          window.speechSynthesis.speak(utterance);
-        }
+        // // Speech-to-Text after bot reply
+        // if (speaking) {
+        //   const utterance = new SpeechSynthesisUtterance(text);
+        //   // const voices = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith("en") && voice.name.includes('Female'));
+        //   const voices = window.speechSynthesis
+        //     .getVoices()
+        //     .filter(
+        //       (voice) =>
+        //         voice.voiceURI === 'Microsoft Zira - English (United States)',
+        //     );
+        //   if (voices.length > 0) {
+        //     utterance.voice = voices[0];
+        //   }
+        //   window.speechSynthesis.speak(utterance);
+        // }
       } else {
         // send to chat file server
         const response = await fetch(
@@ -814,8 +814,8 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
               onUpdateConversation={handleUpdateConversation}
               onEditMessage={handleEditMessage}
               stopConversationRef={stopConversationRef}
-              speaking={speaking}
-              setSpeaking={setSpeaking}
+              // speaking={speaking}
+              // setSpeaking={setSpeaking}
             />
             {showPromptSidebar ? (
               <div>
