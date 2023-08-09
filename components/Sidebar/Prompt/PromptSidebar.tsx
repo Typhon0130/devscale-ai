@@ -7,10 +7,9 @@ import {
 } from '@tabler/icons-react';
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
-import { Folders } from '../Folders';
-import { Search } from '../Search';
+import { Search } from '../../Search';
 import { PromptFolder, Prompt, KeyValuePair } from '@/types';
-import Prompts from './Prompts';
+import Prompts from '../../Prompt/Prompts';
 import PromptFolders from './PromptFolders';
 
 interface Props {

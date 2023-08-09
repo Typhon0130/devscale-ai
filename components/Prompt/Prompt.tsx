@@ -13,6 +13,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { PromptModal } from './PromptModal';
 
 interface Props {
   loading: boolean;
@@ -31,9 +32,15 @@ const PromptComponent: FC<Props> = ({
   onUpdatePrompt,
   onDeletePrompt,
 }) => {
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isRenaming, setIsRenaming] = useState(false);
   const [renameValue, setRenameValue] = useState('');
+
+  // const handleUpdate = (prompt: Prompt) => {
+  //   handleUpdatePrompt(prompt);
+  //   promptDispatch({ field: 'searchTerm', value: '' });
+  // };
 
   const handleEnterDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter') {
@@ -63,45 +70,34 @@ const PromptComponent: FC<Props> = ({
   }, [isRenaming, isDeleting]);
   return (
     <div className="relative flex items-center">
-      {isRenaming && selectedPrompt.id === prompt.id ? (
-        <div className="flex w-full items-center gap-3 bg-[#343541]/90 p-3">
-          <IconPrompt size={18} />
-          <input
-            className="mr-12 flex-1 overflow-hidden overflow-ellipsis bg-transparent text-left text-[12.5px] leading-3 text-white outline-none focus:border-neutral-100"
-            type="text"
-            value={renameValue}
-            onChange={(e) => setRenameValue(e.target.value)}
-            onKeyDown={handleEnterDown}
-            autoFocus
-          />
-        </div>
-      ) : (
-        <button
-          className={`flex w-full cursor-pointer items-center gap-3 rounded-lg p-3 text-sm transition-colors duration-200 ${
-            loading ? 'disabled:cursor-not-allowed' : ''
-          } ${selectedPrompt.id === prompt.id ? 'bg-[white]/5' : ''}`}
-          onClick={() => onSelectPrompt(prompt)}
-          disabled={loading}
-          draggable="true"
-          onDragStart={(e) => handleDragStart(e, prompt)}
+      <button
+        className={`flex w-full cursor-pointer items-center gap-3 rounded-lg p-3 text-sm transition-colors duration-200 ${
+          loading ? 'disabled:cursor-not-allowed' : ''
+        } ${selectedPrompt.id === prompt.id ? 'bg-[white]/5' : ''}`}
+        onClick={(e) => {
+          e.stopPropagation();
+          setShowModal(true);
+        }}
+        disabled={loading}
+        draggable="true"
+        onDragStart={(e) => handleDragStart(e, prompt)}
+      >
+        <IconPrompt
+          size={18}
+          style={{
+            color: `${selectedPrompt.id === prompt.id ? '#FADA5E' : ''}`,
+          }}
+        />
+        <div
+          className={`relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all text-left text-[12.5px] leading-3 ${
+            selectedPrompt.id === prompt.id ? 'pr-12' : 'pr-1'
+          }`}
         >
-          <IconPrompt
-            size={18}
-            style={{
-              color: `${selectedPrompt.id === prompt.id ? '#FADA5E' : ''}`,
-            }}
-          />
-          <div
-            className={`relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all text-left text-[12.5px] leading-3 ${
-              selectedPrompt.id === prompt.id ? 'pr-12' : 'pr-1'
-            }`}
-          >
-            {prompt.name}
-          </div>
-        </button>
-      )}
+          {prompt.name}
+        </div>
+      </button>
 
-      {(isDeleting || isRenaming) && selectedPrompt.id === prompt.id && (
+      {(isDeleting || isRenaming) && (
         <div className="visible absolute right-1 z-10 flex text-gray-300">
           <button
             className="min-w-[20px] p-1 text-neutral-400 hover:text-neutral-100"
@@ -131,18 +127,8 @@ const PromptComponent: FC<Props> = ({
         </div>
       )}
 
-      {selectedPrompt.id === prompt.id && !isDeleting && !isRenaming && (
+      {!isDeleting && !isRenaming && (
         <div className="visible absolute right-1 z-10 flex text-gray-300">
-          <button
-            className="min-w-[20px] p-1 text-neutral-400 hover:text-neutral-100"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsRenaming(true);
-              setRenameValue(selectedPrompt.name);
-            }}
-          >
-            <IconPencil size={18} />
-          </button>
           <button
             className="min-w-[20px] p-1 text-neutral-400 hover:text-neutral-100"
             onClick={(e) => {
@@ -153,6 +139,15 @@ const PromptComponent: FC<Props> = ({
             <IconTrash size={18} />
           </button>
         </div>
+      )}
+      {showModal && (
+        <PromptModal
+          prompt={prompt}
+          onClose={() => setShowModal(false)}
+          onUpdatePrompt={() => {
+            console.log(1);
+          }}
+        />
       )}
     </div>
   );

@@ -19,16 +19,16 @@ import {
   HumanMessagePromptTemplate,
 } from 'langchain/prompts';
 import { BufferMemory, ChatMessageHistory } from 'langchain/memory';
-import { RetrievalQAChain, LLMChain } from 'langchain/chains';
+import {
+  RetrievalQAChain,
+  LLMChain,
+  ConversationalRetrievalQAChain,
+} from 'langchain/chains';
 import { OpenAI } from 'langchain/llms/openai';
 import { ChatOpenAI } from 'langchain/chat_models';
 import { makeChain } from '@/utils/makechain';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getChatModel } from '@/utils/server/opnai';
-
-// export const config = {
-//   runtime: 'edge',
-// };
 
 const hanlder = async (req: NextApiRequest, res: NextApiResponse) => {
   const { messages, prompt } = req.body as ChatBody;
@@ -62,8 +62,10 @@ const hanlder = async (req: NextApiRequest, res: NextApiResponse) => {
     ]);
 
     const memory = new BufferMemory({
-      returnMessages: true,
       chatHistory: new ChatMessageHistory(historyMessages),
+      memoryKey: 'chat_history',
+      inputKey: 'question',
+      returnMessages: true,
     });
 
     // Set Config PineCone Environment
@@ -91,59 +93,35 @@ const hanlder = async (req: NextApiRequest, res: NextApiResponse) => {
       Connection: 'keep-alive',
     });
 
-    const chain = RetrievalQAChain.fromLLM(llm, vectorStore.asRetriever());
+    // const chain = RetrievalQAChain.fromLLM(llm, vectorStore.asRetriever(), {
+    //   inputKey: 'question',
+    //   returnSourceDocuments: true,
+    // });
 
-    const response = await chain.call({ query: input });
+    // const response = await chain.call({
+    //   question: input,
+    // });
+
+    const chain = ConversationalRetrievalQAChain.fromLLM(
+      llm,
+      vectorStore.asRetriever(),
+      {
+        memory: new BufferMemory({
+          memoryKey: 'chat_history', // Must be set to "chat_history"
+          inputKey: 'question',
+          returnMessages: true,
+        }),
+      },
+    );
+
+    const response = await chain.call({
+      question: input,
+      chat_history: new ChatMessageHistory(historyMessages),
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ errorMessage: (err as Error).toString() });
   }
 };
-
-// const handler = async (req: Request): Promise<Response> => {
-//   try {
-//     const { model, messages, key, prompt } = (await req.json()) as ChatBody;
-
-//     await init((imports) => WebAssembly.instantiate(wasm, imports));
-//     const encoding = new Tiktoken(
-//       tiktokenModel.bpe_ranks,
-//       tiktokenModel.special_tokens,
-//       tiktokenModel.pat_str,
-//     );
-
-//     const tokenLimit = model.id === OpenAIModelID.GPT_4 ? 6000 : 3000;
-
-//     let promptToSend = prompt;
-//     if (!promptToSend) {
-//       promptToSend = DEFAULT_SYSTEM_PROMPT;
-//     }
-
-//     const prompt_tokens = encoding.encode(promptToSend);
-
-//     let tokenCount = prompt_tokens.length;
-//     let messagesToSend: Message[] = [];
-
-//     for (let i = messages.length - 1; i >= 0; i--) {
-//       const message = messages[i];
-
-//       const tokens = encoding.encode(message.content);
-
-//       if (tokenCount + tokens.length > tokenLimit) {
-//         break;
-//       }
-//       tokenCount += tokens.length;
-//       messagesToSend = [message, ...messagesToSend];
-//     }
-
-//     encoding.free();
-
-//     const stream = await OpenAIStream(model, promptToSend, key, messagesToSend);
-
-//     return new Response(stream);
-//   } catch (error) {
-//     console.error(error);
-//     return new Response('Error', { status: 500 });
-//   }
-// };
 
 export default hanlder;

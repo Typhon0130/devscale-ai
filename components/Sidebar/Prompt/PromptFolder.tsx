@@ -8,7 +8,7 @@ import {
   IconX,
 } from '@tabler/icons-react';
 import React, { FC, KeyboardEvent, useEffect, useState } from 'react';
-import PromptComponent from './Prompt';
+import PromptComponent from '@/components/Prompt/Prompt';
 
 interface Props {
   loading: boolean;

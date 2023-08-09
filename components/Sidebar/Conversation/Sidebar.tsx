@@ -8,8 +8,8 @@ import {
 import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { Conversations } from './Conversations';
-import { Folders } from '../Folders';
-import { Search } from '../Search';
+import { Folders } from './Folders';
+import { Search } from '../../Search';
 import { SidebarSettings } from './SidebarSettings';
 
 interface Props {
