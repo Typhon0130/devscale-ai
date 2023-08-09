@@ -21,7 +21,7 @@ interface Props {
   selectedPrompt: Prompt;
   onSelectPrompt: (prompt: Prompt) => void;
   onDeletePrompt: (prompt: Prompt) => void;
-  onUpdatePrompt: (prompt: Prompt) => void;
+  onUpdatePrompt: (prompt: Prompt, data: KeyValuePair) => void;
 }
 
 const PromptComponent: FC<Props> = ({
@@ -66,9 +66,9 @@ const PromptComponent: FC<Props> = ({
   return (
     <div className="relative flex items-center">
       <button
-        className={`flex w-full cursor-pointer items-center gap-3 rounded-lg p-3 text-sm transition-colors duration-200 ${
+        className={`prompt-button flex w-full cursor-pointer items-center gap-3 rounded-lg p-3 text-sm transition duration-200  ease-in-out hover:bg-[white]/5 ${
           loading ? 'disabled:cursor-not-allowed' : ''
-        } ${selectedPrompt.id === prompt.id ? 'bg-[white]/5' : ''}`}
+        }`}
         onClick={(e) => {
           e.stopPropagation();
           setShowModal(true);
@@ -77,12 +77,7 @@ const PromptComponent: FC<Props> = ({
         draggable="true"
         onDragStart={(e) => handleDragStart(e, prompt)}
       >
-        <IconPrompt
-          size={18}
-          style={{
-            color: `${selectedPrompt.id === prompt.id ? '#FADA5E' : ''}`,
-          }}
-        />
+        <IconPrompt size={18} className="prompt-icon" />
         <div
           className={`relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all text-left text-[12.5px] leading-3 ${
             selectedPrompt.id === prompt.id ? 'pr-12' : 'pr-1'

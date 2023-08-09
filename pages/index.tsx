@@ -540,9 +540,10 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
     setConversations(all);
   };
 
-  const handleUpdatePrompt = (prompt: Prompt) => {
+  const handleUpdatePrompt = (prompt: Prompt, data: KeyValuePair) => {
     const updatedPrompt = {
       ...prompt,
+      [data.key]: data.value,
     };
 
     const { single, all } = updatePrompt(updatedPrompt, prompts);
