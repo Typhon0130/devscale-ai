@@ -6,7 +6,6 @@ import {
   OpenAIModel,
 } from '@/types';
 import { throttle } from '@/utils';
-import { IconClearAll, IconSettings } from '@tabler/icons-react';
 import { useTranslation } from 'next-i18next';
 import { FC, memo, MutableRefObject, useEffect, useRef, useState } from 'react';
 import { ChatInput } from './ChatInput';
@@ -14,8 +13,6 @@ import { ChatLoader } from './ChatLoader';
 import { ChatMessage } from './ChatMessage';
 import { ErrorMessageDiv } from './ErrorMessageDiv';
 import { ModelSelect } from './ModelSelect';
-import { CHAT_FILES_MAX_SIZE } from '@/utils/app/const';
-import { humanFileSize } from '@/utils/app/files';
 
 interface Props {
   conversation: Conversation;
@@ -217,8 +214,6 @@ export const Chat: FC<Props> = memo(
                       message={message}
                       messageIndex={index}
                       onEditMessage={onEditMessage}
-                      // speaking={speaking}
-                      // setSpeaking={setSpeaking}
                     />
                   ))}
 

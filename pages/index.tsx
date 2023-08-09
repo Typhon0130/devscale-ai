@@ -36,6 +36,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'next-i18next';
 import PromptSidebar from '@/components/Sidebar/Prompt/PromptSidebar';
 import { savePromptFolders } from '@/utils/app/promptfolders';
+import { getDate } from '@/utils/app/date';
 
 interface HomeProps {
   serverSideApiKeyIsSet: boolean;
@@ -101,6 +102,8 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
       setMessageError(false);
 
       if (updatedConversation.index.indexName.length === 0) {
+        console.log(2);
+
         const chatBody: ChatBody = {
           model: updatedConversation.model,
           messages: updatedConversation.messages,
@@ -162,6 +165,7 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
           }
           const { value, done: doneReading } = await reader.read();
           done = doneReading;
+
           const chunkValue = decoder.decode(value);
 
           text += chunkValue;
@@ -170,7 +174,7 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
             isFirst = false;
             const updatedMessages: Message[] = [
               ...updatedConversation.messages,
-              { role: 'assistant', content: chunkValue },
+              { role: 'assistant', content: chunkValue, date: getDate() },
             ];
 
             updatedConversation = {
@@ -202,6 +206,7 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
           }
         }
       } else {
+        console.log(1);
         // send to chat file server
         const response = await fetch(
           `/api/query?message=${message.content}&indexName=${updatedConversation.index.indexName}&indexType=${updatedConversation.index.indexType}`,
@@ -214,7 +219,7 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
 
         const updatedMessages: Message[] = [
           ...updatedConversation.messages,
-          { role: 'assistant', content: answer },
+          { role: 'assistant', content: answer, date: getDate() },
         ];
 
         updatedConversation = {
