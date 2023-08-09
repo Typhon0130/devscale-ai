@@ -56,6 +56,8 @@ export interface Prompt {
   id: number;
   name: string;
   promptValue: PromptValue[];
+  description: string;
+  content: string;
   folderId: number;
 }
 

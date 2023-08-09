@@ -68,6 +68,8 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
     name: '',
     promptValue: [],
     folderId: 0,
+    content: '',
+    description: '',
   });
 
   const stopConversationRef = useRef<boolean>(false);
@@ -455,6 +457,8 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
       name: `${t('Prompt')} ${lastPrompt ? lastPrompt.id + 1 : 1}`,
       folderId: 0,
       promptValue: [],
+      content: '',
+      description: '',
     };
 
     const updatedPrompts = [...prompts, newPrompt];
@@ -511,6 +515,8 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
         name: 'New Prompt',
         folderId: 0,
         promptValue: [],
+        content: '',
+        description: '',
       });
       localStorage.removeItem('selectedPrompt');
     }
@@ -534,10 +540,9 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
     setConversations(all);
   };
 
-  const handleUpdatePrompt = (prompt: Prompt, data: KeyValuePair) => {
+  const handleUpdatePrompt = (prompt: Prompt) => {
     const updatedPrompt = {
       ...prompt,
-      [data.key]: data.value,
     };
 
     const { single, all } = updatePrompt(updatedPrompt, prompts);
@@ -577,6 +582,8 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
       name: 'New Prompt',
       promptValue: [],
       folderId: 0,
+      content: '',
+      description: '',
     });
     localStorage.removeItem('selectedPrompt');
 

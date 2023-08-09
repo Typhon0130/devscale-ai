@@ -8,7 +8,7 @@ interface Props {
   selectedPrompt: Prompt;
   onSelectPrompt: (prompt: Prompt) => void;
   onDeletePrompt: (prompt: Prompt) => void;
-  onUpdatePrompt: (prompt: Prompt, data: KeyValuePair) => void;
+  onUpdatePrompt: (prompt: Prompt, data: KeyValuePair[]) => void;
 }
 
 const Prompts: FC<Props> = ({

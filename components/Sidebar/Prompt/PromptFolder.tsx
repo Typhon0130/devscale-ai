@@ -8,7 +8,7 @@ import {
   IconX,
 } from '@tabler/icons-react';
 import React, { FC, KeyboardEvent, useEffect, useState } from 'react';
-import PromptComponent from './Prompt';
+import PromptComponent from '@/components/Prompt/Prompt';
 
 interface Props {
   loading: boolean;
@@ -20,7 +20,7 @@ interface Props {
   onUpdateFolder: (folderId: number, name: string) => void;
   onSelectPrompt: (prompt: Prompt) => void;
   onDeletePrompt: (prompt: Prompt) => void;
-  onUpdatePrompt: (prompt: Prompt, data: KeyValuePair) => void;
+  onUpdatePrompt: (prompt: Prompt, data: KeyValuePair[]) => void;
 }
 
 const PromptFolderComponent: FC<Props> = ({
@@ -58,7 +58,7 @@ const PromptFolderComponent: FC<Props> = ({
       setIsOpen(true);
 
       const prompt = JSON.parse(e.dataTransfer.getData('prompt'));
-      onUpdatePrompt(prompt, { key: 'folderId', value: folder.id });
+      onUpdatePrompt(prompt, [{ key: 'folderId', value: folder.id }]);
 
       e.target.style.background = 'none';
     }
