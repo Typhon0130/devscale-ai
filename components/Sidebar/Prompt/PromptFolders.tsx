@@ -12,7 +12,7 @@ interface Props {
   loading: boolean;
   onSelectPrompt: (prompt: Prompt) => void;
   onDeletePrompt: (prompt: Prompt) => void;
-  onUpdatePrompt: (prompt: Prompt, data: KeyValuePair) => void;
+  onUpdatePrompt: (prompt: Prompt, data: KeyValuePair[]) => void;
 }
 
 const PromptFolders: FC<Props> = ({

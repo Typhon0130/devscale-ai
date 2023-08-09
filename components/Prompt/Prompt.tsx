@@ -21,7 +21,7 @@ interface Props {
   selectedPrompt: Prompt;
   onSelectPrompt: (prompt: Prompt) => void;
   onDeletePrompt: (prompt: Prompt) => void;
-  onUpdatePrompt: (prompt: Prompt, data: KeyValuePair) => void;
+  onUpdatePrompt: (prompt: Prompt) => void;
 }
 
 const PromptComponent: FC<Props> = ({
@@ -37,17 +37,12 @@ const PromptComponent: FC<Props> = ({
   const [isRenaming, setIsRenaming] = useState(false);
   const [renameValue, setRenameValue] = useState('');
 
-  // const handleUpdate = (prompt: Prompt) => {
-  //   handleUpdatePrompt(prompt);
-  //   promptDispatch({ field: 'searchTerm', value: '' });
+  // const handleEnterDown = (e: KeyboardEvent<HTMLDivElement>) => {
+  //   if (e.key === 'Enter') {
+  //     e.preventDefault();
+  //     handleRename(selectedPrompt);
+  //   }
   // };
-
-  const handleEnterDown = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleRename(selectedPrompt);
-    }
-  };
 
   const handleDragStart = (e: DragEvent<HTMLButtonElement>, prompt: Prompt) => {
     if (e.dataTransfer) {
@@ -55,11 +50,11 @@ const PromptComponent: FC<Props> = ({
     }
   };
 
-  const handleRename = (prompt: Prompt) => {
-    onUpdatePrompt(prompt, { key: 'name', value: renameValue });
-    setRenameValue('');
-    setIsRenaming(false);
-  };
+  // const handleRename = (prompt: Prompt) => {
+  //   onUpdatePrompt(prompt, { key: 'name', value: renameValue });
+  //   setRenameValue('');
+  //   setIsRenaming(false);
+  // };
 
   useEffect(() => {
     if (isRenaming) {
@@ -105,8 +100,6 @@ const PromptComponent: FC<Props> = ({
               e.stopPropagation();
               if (isDeleting) {
                 onDeletePrompt(prompt);
-              } else if (isRenaming) {
-                handleRename(prompt);
               }
               setIsDeleting(false);
               setIsRenaming(false);
@@ -144,9 +137,7 @@ const PromptComponent: FC<Props> = ({
         <PromptModal
           prompt={prompt}
           onClose={() => setShowModal(false)}
-          onUpdatePrompt={() => {
-            console.log(1);
-          }}
+          onUpdatePrompt={onUpdatePrompt}
         />
       )}
     </div>

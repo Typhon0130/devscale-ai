@@ -24,7 +24,7 @@ interface Props {
   onSelectPrompt: (prompt: Prompt) => void;
   onDeletePrompt: (prompt: Prompt) => void;
   onToggleSidebar: () => void;
-  onUpdatePrompt: (prompt: Prompt, data: KeyValuePair) => void;
+  onUpdatePrompt: (prompt: Prompt, data: KeyValuePair[]) => void;
   onClearPrompts: () => void;
 }
 
@@ -47,7 +47,8 @@ const PromptSidebar: FC<Props> = ({
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filteredPrompts, setFilteredPrompts] = useState<Prompt[]>(prompts);
 
-  const handleUpdatePrompt = (prompt: Prompt, data: KeyValuePair) => {
+  const handleUpdatePrompt = (prompt: Prompt, data: KeyValuePair[]) => {
+    console.log(1, 'final');
     onUpdatePrompt(prompt, data);
     setSearchTerm('');
   };
@@ -60,7 +61,7 @@ const PromptSidebar: FC<Props> = ({
   const handleDrop = (e: any) => {
     if (e.dataTransfer) {
       const prompt = JSON.parse(e.dataTransfer.getData('prompt'));
-      onUpdatePrompt(prompt, { key: 'folderId', value: 0 });
+      onUpdatePrompt(prompt, [{ key: 'folderId', value: 0 }]);
 
       e.target.style.background = 'none';
     }

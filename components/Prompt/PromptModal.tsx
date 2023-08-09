@@ -2,7 +2,7 @@ import { FC, KeyboardEvent, useEffect, useRef, useState } from 'react';
 
 import { useTranslation } from 'next-i18next';
 
-import { Prompt } from '@/types/';
+import { Prompt, KeyValuePair } from '@/types';
 
 interface Props {
   prompt: Prompt;
@@ -22,8 +22,14 @@ export const PromptModal: FC<Props> = ({ prompt, onClose, onUpdatePrompt }) => {
   const handleEnter = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       onUpdatePrompt({ ...prompt, name, description, content: content.trim() });
+      // onUpdatePrompt(prompt, [
+      //   { key: 'name', value: name },
+      //   { key: 'description', value: description },
+      //   { key: 'content', value: content },
+      // ]);
       onClose();
     }
+    console.log(1);
   };
 
   useEffect(() => {
@@ -116,6 +122,13 @@ export const PromptModal: FC<Props> = ({ prompt, onClose, onUpdatePrompt }) => {
                   content: content.trim(),
                 };
 
+                console.log(updatedPrompt);
+
+                // onUpdatePrompt(prompt, [
+                //   { key: 'name', value: name },
+                //   { key: 'description', value: description },
+                //   { key: 'content', value: content },
+                // ]);
                 onUpdatePrompt(updatedPrompt);
                 onClose();
               }}
