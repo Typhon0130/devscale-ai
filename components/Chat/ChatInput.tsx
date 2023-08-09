@@ -9,6 +9,7 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'next-i18next';
+import { getDate } from '@/utils/app/date';
 
 interface Props {
   messageIsStreaming: boolean;
@@ -53,7 +54,7 @@ export const ChatInput: FC<Props> = ({
       return;
     }
 
-    onSend({ role: 'user', content });
+    onSend({ role: 'user', content, date: getDate() });
     setContent('');
 
     if (window.innerWidth < 640 && textareaRef && textareaRef.current) {

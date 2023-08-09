@@ -155,7 +155,7 @@ export const ChatMessage: FC<Props> = memo(
                         onClick={toggleEditing}
                       />
                     </button>
-                    <Date />
+                    <Date dateValue={message.date} />
                   </div>
                 )}
               </div>
@@ -216,7 +216,7 @@ export const ChatMessage: FC<Props> = memo(
                       messagedCopied={messagedCopied}
                       copyOnClick={copyOnClick}
                     />
-                    <Date />
+                    <Date dateValue={message.date} />
                   </div>
                 )}
               </>
