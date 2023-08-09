@@ -24,7 +24,7 @@ interface Props {
   onSelectPrompt: (prompt: Prompt) => void;
   onDeletePrompt: (prompt: Prompt) => void;
   onToggleSidebar: () => void;
-  onUpdatePrompt: (prompt: Prompt, data: KeyValuePair[]) => void;
+  onUpdatePrompt: (prompt: Prompt, data: KeyValuePair) => void;
   onClearPrompts: () => void;
 }
 
@@ -47,8 +47,7 @@ const PromptSidebar: FC<Props> = ({
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filteredPrompts, setFilteredPrompts] = useState<Prompt[]>(prompts);
 
-  const handleUpdatePrompt = (prompt: Prompt, data: KeyValuePair[]) => {
-    console.log(1, 'final');
+  const handleUpdatePrompt = (prompt: Prompt, data: KeyValuePair) => {
     onUpdatePrompt(prompt, data);
     setSearchTerm('');
   };
@@ -61,7 +60,7 @@ const PromptSidebar: FC<Props> = ({
   const handleDrop = (e: any) => {
     if (e.dataTransfer) {
       const prompt = JSON.parse(e.dataTransfer.getData('prompt'));
-      onUpdatePrompt(prompt, [{ key: 'folderId', value: 0 }]);
+      onUpdatePrompt(prompt, { key: 'folderId', value: 0 });
 
       e.target.style.background = 'none';
     }
@@ -94,10 +93,6 @@ const PromptSidebar: FC<Props> = ({
       setFilteredPrompts(prompts);
     }
   }, [searchTerm, prompts]);
-
-  useEffect(() => {
-    console.log(prompts, '```````````````');
-  }, [prompts]);
   return (
     <aside
       className={`fixed top-0 bottom-0 right-0 z-50 flex h-full w-[260px] flex-none flex-col space-y-2 bg-[#202123] p-2 transition-all sm:relative sm:top-0`}

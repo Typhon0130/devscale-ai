@@ -7,7 +7,7 @@ import { Prompt, KeyValuePair } from '@/types';
 interface Props {
   prompt: Prompt;
   onClose: () => void;
-  onUpdatePrompt: (prompt: Prompt) => void;
+  onUpdatePrompt: (prompt: Prompt, data: KeyValuePair) => void;
 }
 
 export const PromptModal: FC<Props> = ({ prompt, onClose, onUpdatePrompt }) => {
@@ -21,7 +21,10 @@ export const PromptModal: FC<Props> = ({ prompt, onClose, onUpdatePrompt }) => {
 
   const handleEnter = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
-      onUpdatePrompt({ ...prompt, name, description, content: content.trim() });
+      onUpdatePrompt(
+        { ...prompt, name, description, content: content.trim() },
+        { key: 'folderId', value: prompt.folderId },
+      );
       // onUpdatePrompt(prompt, [
       //   { key: 'name', value: name },
       //   { key: 'description', value: description },
@@ -129,7 +132,10 @@ export const PromptModal: FC<Props> = ({ prompt, onClose, onUpdatePrompt }) => {
                 //   { key: 'description', value: description },
                 //   { key: 'content', value: content },
                 // ]);
-                onUpdatePrompt(updatedPrompt);
+                onUpdatePrompt(updatedPrompt, {
+                  key: 'folderId',
+                  value: prompt.folderId,
+                });
                 onClose();
               }}
             >

@@ -49,3 +49,7 @@ pre:has(div.codeblock) {
 * {
   outline: none;
 }
+
+.prompt-button:hover .prompt-icon {
+  color: #fada5e;
+}
