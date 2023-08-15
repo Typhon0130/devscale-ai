@@ -93,15 +93,6 @@ const hanlder = async (req: NextApiRequest, res: NextApiResponse) => {
       Connection: 'keep-alive',
     });
 
-    // const chain = RetrievalQAChain.fromLLM(llm, vectorStore.asRetriever(), {
-    //   inputKey: 'question',
-    //   returnSourceDocuments: true,
-    // });
-
-    // const response = await chain.call({
-    //   question: input,
-    // });
-
     const chain = ConversationalRetrievalQAChain.fromLLM(
       llm,
       vectorStore.asRetriever(),
