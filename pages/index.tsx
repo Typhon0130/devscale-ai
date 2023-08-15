@@ -102,8 +102,6 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
       setMessageError(false);
 
       if (updatedConversation.index.indexName.length === 0) {
-        console.log(2);
-
         const chatBody: ChatBody = {
           model: updatedConversation.model,
           messages: updatedConversation.messages,
@@ -206,7 +204,6 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
           }
         }
       } else {
-        console.log(1);
         // send to chat file server
         const response = await fetch(
           `/api/query?message=${message.content}&indexName=${updatedConversation.index.indexName}&indexType=${updatedConversation.index.indexType}`,
@@ -347,7 +344,6 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
 
     setFolders(updatedFolders);
     saveFolders(updatedFolders);
-    console.log(folders, 'folders');
   };
 
   const handleCreatePromptFolder = (name: string) => {
@@ -362,7 +358,6 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
 
     setPromptFolders(updatedFolders);
     savePromptFolders(updatedFolders);
-    console.log(promptFolders, 'promptFolders');
   };
 
   const handleDeleteFolder = (folderId: number) => {
@@ -407,7 +402,6 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
   };
 
   const handleUpdatePromptFolder = (folderId: number, name: string) => {
-    console.log(folderId, name);
     const updatedPromptFolders = promptFolders.map((f) => {
       if (f.id === folderId) {
         return {
@@ -418,8 +412,6 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
 
       return f;
     });
-
-    console.log(updatedPromptFolders, 'updatedPromptFolders');
 
     setPromptFolders(updatedPromptFolders);
     savePromptFolders(updatedPromptFolders);
