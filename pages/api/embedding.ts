@@ -33,8 +33,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       // Split the documents into smaller chunks
       const text_splitter = new RecursiveCharacterTextSplitter({
-        chunkSize: 1000,
-        chunkOverlap: 200,
+        separators: ['\n\n', '\n', ' ', ''],
+        chunkSize: 100,
+        chunkOverlap: 20,
       });
       const docs = await text_splitter.splitDocuments(rowDocs);
 
