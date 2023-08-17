@@ -14,7 +14,7 @@ const hanlder = async () => {
       scope: ['https://www.googleapis.com/auth/drive'],
     });
 
-    const { tokens } = await auth.getToken(code);
+    const { tokens } = await auth.getToken('your Code');
 
     const ACCESS_TOKEN = tokens.access_token;
 
