@@ -2,6 +2,14 @@ import React from 'react';
 import Image from 'next/image';
 
 const Admin = () => {
+  /**
+   * My Method
+   * *Important Information is highlighted
+   * ! Not Completed
+   * ? How can I fix this code
+   * TODO:
+   * @param
+   */
   const handleEmbedding = () => {
     const url =
       'https://drive.google.com/drive/folders/10Hdpiw6goGH7gALMsOWcpry-8DxfOJ5A';
