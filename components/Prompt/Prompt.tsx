@@ -37,24 +37,11 @@ const PromptComponent: FC<Props> = ({
   const [isRenaming, setIsRenaming] = useState(false);
   const [renameValue, setRenameValue] = useState('');
 
-  // const handleEnterDown = (e: KeyboardEvent<HTMLDivElement>) => {
-  //   if (e.key === 'Enter') {
-  //     e.preventDefault();
-  //     handleRename(selectedPrompt);
-  //   }
-  // };
-
   const handleDragStart = (e: DragEvent<HTMLButtonElement>, prompt: Prompt) => {
     if (e.dataTransfer) {
       e.dataTransfer.setData('prompt', JSON.stringify(prompt));
     }
   };
-
-  // const handleRename = (prompt: Prompt) => {
-  //   onUpdatePrompt(prompt, { key: 'name', value: renameValue });
-  //   setRenameValue('');
-  //   setIsRenaming(false);
-  // };
 
   useEffect(() => {
     if (isRenaming) {

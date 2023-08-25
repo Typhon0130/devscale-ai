@@ -21,7 +21,6 @@ const PromptFolders: FC<Props> = ({
   folders,
   onDeleteFolder,
   onUpdateFolder,
-  // conversation props
   selectedPrompt,
   loading,
   onSelectPrompt,
@@ -38,7 +37,6 @@ const PromptFolders: FC<Props> = ({
           currentFolder={folder}
           onDeleteFolder={onDeleteFolder}
           onUpdateFolder={onUpdateFolder}
-          // conversation props
           selectedPrompt={selectedPrompt}
           loading={loading}
           onSelectPrompt={onSelectPrompt}

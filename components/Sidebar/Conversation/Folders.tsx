@@ -8,7 +8,6 @@ interface Props {
   folders: ChatFolder[];
   onDeleteFolder: (folder: number) => void;
   onUpdateFolder: (folder: number, name: string) => void;
-  // conversation props
   selectedConversation: Conversation;
   loading: boolean;
   onSelectConversation: (conversation: Conversation) => void;
@@ -25,7 +24,6 @@ export const Folders: FC<Props> = ({
   folders,
   onDeleteFolder,
   onUpdateFolder,
-  // conversation props
   selectedConversation,
   loading,
   onSelectConversation,
