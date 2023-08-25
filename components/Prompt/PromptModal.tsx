@@ -1,7 +1,5 @@
 import { FC, KeyboardEvent, useEffect, useRef, useState } from 'react';
-
 import { useTranslation } from 'next-i18next';
-
 import { Prompt, KeyValuePair } from '@/types';
 
 interface Props {
@@ -25,11 +23,6 @@ export const PromptModal: FC<Props> = ({ prompt, onClose, onUpdatePrompt }) => {
         { ...prompt, name, description, content: content.trim() },
         { key: 'folderId', value: prompt.folderId },
       );
-      // onUpdatePrompt(prompt, [
-      //   { key: 'name', value: name },
-      //   { key: 'description', value: description },
-      //   { key: 'content', value: content },
-      // ]);
       onClose();
     }
     console.log(1);
@@ -127,11 +120,6 @@ export const PromptModal: FC<Props> = ({ prompt, onClose, onUpdatePrompt }) => {
 
                 console.log(updatedPrompt);
 
-                // onUpdatePrompt(prompt, [
-                //   { key: 'name', value: name },
-                //   { key: 'description', value: description },
-                //   { key: 'content', value: content },
-                // ]);
                 onUpdatePrompt(updatedPrompt, {
                   key: 'folderId',
                   value: prompt.folderId,

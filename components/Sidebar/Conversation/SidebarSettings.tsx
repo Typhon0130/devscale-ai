@@ -3,7 +3,6 @@ import { IconFileExport, IconMoon, IconSun } from '@tabler/icons-react';
 import { FC } from 'react';
 import { useTranslation } from 'next-i18next';
 import { ClearConversations } from './ClearConversations';
-import { Import } from './Import';
 import { Key } from './Key';
 import { SidebarButton } from './SidebarButton';
 
@@ -33,16 +32,12 @@ export const SidebarSettings: FC<Props> = ({
   return (
     <div className="flex flex-col items-center space-y-1 border-t border-white/20 pt-1 text-sm">
       <ClearConversations onClearConversations={onClearConversations} />
-
-      {/* <Import onImport={onImportConversations} /> */}
-
-      {/* <SidebarButton
+      <SidebarButton
         text={t('Export conversations')}
         icon={<IconFileExport size={18} />}
         onClick={() => onExportConversations()}
-      /> */}
-
-      {/* <SidebarButton
+      />
+      <SidebarButton
         text={lightMode === 'light' ? t('Dark mode') : t('Light mode')}
         icon={
           lightMode === 'light' ? <IconMoon size={18} /> : <IconSun size={18} />
@@ -50,9 +45,8 @@ export const SidebarSettings: FC<Props> = ({
         onClick={() =>
           onToggleLightMode(lightMode === 'light' ? 'dark' : 'light')
         }
-      /> */}
-
-      {/* <Key apiKey={apiKey} onApiKeyChange={onApiKeyChange} /> */}
+      />
+      <Key apiKey={apiKey} onApiKeyChange={onApiKeyChange} />
     </div>
   );
 };
