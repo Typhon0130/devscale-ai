@@ -11,8 +11,7 @@ const Admin = () => {
    * @param
    */
   const handleEmbedding = () => {
-    const url =
-      'https://drive.google.com/drive/folders/10Hdpiw6goGH7gALMsOWcpry-8DxfOJ5A';
+    const url = process.env.GOOGLE_DRIVE_FOLDER_ID;
   };
 
   return (
