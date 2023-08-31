@@ -3,7 +3,6 @@ import Image from 'next/image';
 
 const Admin = () => {
   /**
-   * My Method
    * *Important Information is highlighted
    * ! Not Completed
    * ? How can I fix this code
