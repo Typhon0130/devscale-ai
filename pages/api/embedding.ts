@@ -17,7 +17,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     apiKey: process.env.PINECONE_API_KEY as string,
   });
 
-  // Local Data Embedding
+  // Using Local Data for Embedding
   const base_url = __dirname.replace(
     '\\.next\\server\\pages\\api',
     '\\dummy_data\\',
