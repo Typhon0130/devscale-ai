@@ -1,18 +1,6 @@
 import { KeyValuePair, Prompt } from '@/types';
-import {
-  IconCheck,
-  IconPencil,
-  IconTrash,
-  IconX,
-  IconPrompt,
-} from '@tabler/icons-react';
-import React, {
-  DragEvent,
-  FC,
-  KeyboardEvent,
-  useEffect,
-  useState,
-} from 'react';
+import { IconCheck, IconTrash, IconX, IconPrompt } from '@tabler/icons-react';
+import React, { DragEvent, FC, useEffect, useState } from 'react';
 import { PromptModal } from './PromptModal';
 
 interface Props {
@@ -35,7 +23,6 @@ const PromptComponent: FC<Props> = ({
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isRenaming, setIsRenaming] = useState(false);
-  const [renameValue, setRenameValue] = useState('');
 
   const handleDragStart = (e: DragEvent<HTMLButtonElement>, prompt: Prompt) => {
     if (e.dataTransfer) {
