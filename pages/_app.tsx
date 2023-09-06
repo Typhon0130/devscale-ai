@@ -10,7 +10,6 @@ const inter = Inter({ subsets: ['latin'] });
 function App({ Component, pageProps }: AppProps<{}>) {
   return (
     <main className={inter.className}>
-      {/* <Notifications position="top-right" /> */}
       <Component {...pageProps} />
     </main>
   );
