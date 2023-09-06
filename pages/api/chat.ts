@@ -20,9 +20,6 @@ import {
   LLMChain,
   ConversationalRetrievalQAChain,
 } from 'langchain/chains';
-import { OpenAI } from 'langchain/llms/openai';
-import { ChatOpenAI } from 'langchain/chat_models';
-import { makeChain } from '@/utils/makechain';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getChatModel } from '@/utils/server/opnai';
 
