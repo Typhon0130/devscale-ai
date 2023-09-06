@@ -15,11 +15,7 @@ import {
   HumanMessagePromptTemplate,
 } from 'langchain/prompts';
 import { BufferMemory, ChatMessageHistory } from 'langchain/memory';
-import {
-  RetrievalQAChain,
-  LLMChain,
-  ConversationalRetrievalQAChain,
-} from 'langchain/chains';
+import { ConversationalRetrievalQAChain } from 'langchain/chains';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getChatModel } from '@/utils/server/opnai';
 
