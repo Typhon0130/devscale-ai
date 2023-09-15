@@ -80,7 +80,6 @@ export const ChatInput: FC<Props> = ({
   };
 
   function handleVoiceCommand(command: string) {
-    console.log(`command :=> ${command.toLowerCase()}`);
     const startCommandList: string[] = [
       'despot',
       'missbot',

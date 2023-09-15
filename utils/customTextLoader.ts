@@ -33,7 +33,6 @@ export class CustomTextLoader extends BufferLoader {
     raw: Buffer,
     metadata: Document['metadata'],
   ): Promise<Document[]> {
-    console.log(raw);
     const parsed = { text: '', numpages: '' };
     return [
       new Document({
