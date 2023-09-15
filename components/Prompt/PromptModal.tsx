@@ -25,7 +25,6 @@ export const PromptModal: FC<Props> = ({ prompt, onClose, onUpdatePrompt }) => {
       );
       onClose();
     }
-    console.log(1);
   };
 
   useEffect(() => {
@@ -117,8 +116,6 @@ export const PromptModal: FC<Props> = ({ prompt, onClose, onUpdatePrompt }) => {
                   description,
                   content: content.trim(),
                 };
-
-                console.log(updatedPrompt);
 
                 onUpdatePrompt(updatedPrompt, {
                   key: 'folderId',

@@ -119,8 +119,6 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
           body: JSON.stringify(chatBody),
         });
 
-        console.log(response);
-
         if (!response.ok) {
           setLoading(false);
           setMessageIsStreaming(false);

@@ -33,7 +33,6 @@ export class CustomPDFLoader extends BufferLoader {
     raw: Buffer,
     metadata: Document['metadata'],
   ): Promise<Document[]> {
-    console.log(raw);
     const { pdf } = await PDFLoaderImports();
     const parsed = await pdf(raw);
     return [
