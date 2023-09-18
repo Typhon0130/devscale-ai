@@ -7,7 +7,7 @@ const Admin = () => {
    * ! Not Completed
    * ? How can I fix this code
    * TODO: Get the data from the online folders
-   * @param url
+   * @param Embedding Source url
    */
   const handleEmbedding = () => {
     const url = process.env.GOOGLE_DRIVE_FOLDER_ID;
