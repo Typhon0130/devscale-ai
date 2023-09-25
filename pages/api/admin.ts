@@ -9,10 +9,10 @@ const hanlder = async () => {
   try {
     const auth = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 
-    const authUrl = auth.generateAuthUrl({
-      access_type: 'offline',
-      scope: ['https://www.googleapis.com/auth/drive'],
-    });
+    // const authUrl = auth.generateAuthUrl({
+    //   access_type: 'offline',
+    //   scope: ['https://www.googleapis.com/auth/drive'],
+    // });
 
     const { tokens } = await auth.getToken('your Code');
 
