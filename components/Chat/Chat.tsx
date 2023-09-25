@@ -61,12 +61,6 @@ export const Chat: FC<Props> = memo(
       setIsUploadSuccess(isUploadSuccess);
     };
 
-    const onClearAll = () => {
-      if (confirm(t<string>('Are you sure you want to clear all messages?'))) {
-        onUpdateConversation(conversation, { key: 'messages', value: [] });
-      }
-    };
-
     const scrollDown = () => {
       if (autoScrollEnabled) {
         messagesEndRef.current?.scrollIntoView(true);
