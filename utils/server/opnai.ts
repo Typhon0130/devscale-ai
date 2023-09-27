@@ -2,6 +2,7 @@ import { OpenAIChat } from 'langchain/llms/openai';
 import { CallbackManager } from 'langchain/callbacks';
 import { NextApiResponse } from 'next';
 
+// function that define Chat Model
 export const getChatModel = async (res: NextApiResponse) => {
   return new OpenAIChat({
     temperature: 0.9,
@@ -12,6 +13,7 @@ export const getChatModel = async (res: NextApiResponse) => {
   });
 };
 
+// function that ???
 export const getCallbackManager = (res: NextApiResponse) => {
   return CallbackManager.fromHandlers({
     handleLLMNewToken: async (
