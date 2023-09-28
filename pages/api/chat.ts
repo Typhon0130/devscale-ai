@@ -45,8 +45,6 @@ const hanlder = async (req: NextApiRequest, res: NextApiResponse) => {
     const llm = await getChatModel(res);
 
     const promptTemplate = ChatPromptTemplate.fromPromptMessages([
-      // SystemMessagePromptTemplate.fromTemplate(prompt ? prompt : DEFAULT_SYSTEM_PROMPT),
-      // new MessagesPlaceholder("history"),
       HumanMessagePromptTemplate.fromTemplate('{input}'),
     ]);
 

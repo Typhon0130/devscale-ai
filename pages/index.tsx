@@ -779,8 +779,6 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
               onUpdateConversation={handleUpdateConversation}
               onEditMessage={handleEditMessage}
               stopConversationRef={stopConversationRef}
-              // speaking={speaking}
-              // setSpeaking={setSpeaking}
             />
             {showPromptSidebar ? (
               <div>
