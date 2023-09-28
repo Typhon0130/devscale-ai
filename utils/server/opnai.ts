@@ -13,7 +13,6 @@ export const getChatModel = async (res: NextApiResponse) => {
   });
 };
 
-// function that ???
 export const getCallbackManager = (res: NextApiResponse) => {
   return CallbackManager.fromHandlers({
     handleLLMNewToken: async (
