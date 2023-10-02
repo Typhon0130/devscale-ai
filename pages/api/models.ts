@@ -5,6 +5,7 @@ export const config = {
   runtime: 'edge',
 };
 
+// the function that define OpenAI Models
 const handler = async (req: Request): Promise<Response> => {
   try {
     const { key } = (await req.json()) as {

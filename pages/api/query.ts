@@ -8,6 +8,7 @@ export const config = {
   },
 };
 
+// the function that send to req to OpenAI API
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const message: string = req.query.message as string;
   const indexName: string = req.query.indexName as string;

@@ -44,17 +44,6 @@ const hanlder = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const llm = await getChatModel(res);
 
-    const promptTemplate = ChatPromptTemplate.fromPromptMessages([
-      HumanMessagePromptTemplate.fromTemplate('{input}'),
-    ]);
-
-    const memory = new BufferMemory({
-      chatHistory: new ChatMessageHistory(historyMessages),
-      memoryKey: 'chat_history',
-      inputKey: 'question',
-      returnMessages: true,
-    });
-
     // Set Config PineCone Environment
     const pinecone = new PineconeClient();
     await pinecone.init({
@@ -97,7 +86,6 @@ const hanlder = async (req: NextApiRequest, res: NextApiResponse) => {
       chat_history: new ChatMessageHistory(historyMessages),
     });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ errorMessage: (err as Error).toString() });
   }
 };
